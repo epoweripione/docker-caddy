@@ -5,13 +5,25 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
+# RUN PROXY_ADDRESS="http://127.0.0.1:7890" && export http_proxy=${PROXY_ADDRESS} && export https_proxy=${PROXY_ADDRESS}
+
+# RUN go env -w GOPROXY=https://goproxy.cn,direct
+
+# Fix godaddy build: `panic: internal error: can't find reason for requirement on google.golang.org/appengine@v1.6.6`
+# Usage: `xcaddy build --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy`
+RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-godaddy && \
+	cd /root/caddy-dns-godaddy && \
+	rm go.mod go.sum && \
+	go mod init github.com/caddy-dns/godaddy && \
+	go mod tidy
+
 RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/caddy-dns/digitalocean \
     --with github.com/caddy-dns/dnspod \
-    --with github.com/caddy-dns/godaddy \
+    --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy \
     --with github.com/caddy-dns/googleclouddns \
     --with github.com/caddy-dns/namesilo \
     --with github.com/mholt/caddy-dynamicdns \
