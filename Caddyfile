@@ -1,0 +1,79 @@
+{
+        admin off
+
+        order forward_proxy before file_server
+
+        log {
+                output file /var/log/caddy/access.log
+                level INFO
+        }
+
+        auto_https off
+        email your@email.com
+        default_sni example.com
+
+        servers :443 {
+                protocols h1 h2 h2c h3
+        }
+}
+
+:80 {
+        redir https://{host}{uri} permanent
+}
+
+:443, example.com {
+        tls /etc/ssl/fullchain.cer /etc/ssl/private.key
+
+        encode gzip zstd
+
+        root * /var/www/html
+        # templates
+        file_server
+        # file_server browse
+
+        ## PHP
+        # php_fastcgi localhost:9000
+        # php_fastcgi unix//run/php/php-version-fpm.sock
+
+        reverse_proxy * localhost:8080 {
+                # header_up Host {upstream_hostport}
+                header_up Host {host}
+                header_up X-Real-IP {remote_host}
+
+                # trusted_proxies 0.0.0.0/0
+
+                # Set `Strict-Transport-Security` from backend response
+                header_down Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+                ## Remove `Access-Control-Allow-Origin` from backend response
+                # header_down -Access-Control-Allow-Origin
+        }
+
+        handle_errors {
+                abort
+                # rewrite * /{http.error.status_code}.html
+                # file_server
+        }
+
+        header {
+                ## disable FLoC tracking
+                # Permissions-Policy interest-cohort=()
+
+                # enable HSTS
+                Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+                ## disable clients from sniffing the media type
+                # X-Content-Type-Options nosniff
+
+                ## clickjacking protection
+                # X-Frame-Options DENY
+
+                ## keep referrer data off of HTTP connections
+                # Referrer-Policy no-referrer-when-downgrade
+        }
+
+        ## Cache-Control
+        # header /css/* Cache-Control max-age=3600
+        # header /img/* Cache-Control max-age=3600
+        # header /js/* Cache-Control max-age=3600
+}
