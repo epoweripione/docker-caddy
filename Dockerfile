@@ -5,10 +5,6 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
-# RUN PROXY_ADDRESS="http://127.0.0.1:7890" && export http_proxy=${PROXY_ADDRESS} && export https_proxy=${PROXY_ADDRESS}
-
-# RUN go env -w GOPROXY=https://goproxy.cn,direct
-
 # Fix godaddy build: `panic: internal error: can't find reason for requirement on google.golang.org/appengine@v1.6.6`
 # Usage: `xcaddy build --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy`
 RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-godaddy && \
@@ -31,8 +27,10 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
     --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     --with github.com/mholt/caddy-webdav \
     --with github.com/mholt/caddy-l4 \
+    --with github.com/lindenlab/caddy-s3-proxy \
     --with github.com/mholt/caddy-grpc-web \
     --with github.com/kirsch33/realip
+    # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
     # --with github.com/mholt/caddy-events-exec \
     # --with github.com/abiosoft/caddy-exec \
     # --with github.com/WingLim/caddy-webhook

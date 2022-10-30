@@ -3,6 +3,10 @@
 
         order forward_proxy before file_server
 
+        storage file_system {
+                root /etc/ssl/caddy
+        }
+
         log {
                 output file /var/log/caddy/access.log
                 level INFO
@@ -22,7 +26,13 @@
 }
 
 :443, example.com {
-        tls /etc/ssl/fullchain.cer /etc/ssl/private.key
+        # [TLS](https://caddyserver.com/docs/caddyfile/directives/tls)
+        # [How to use DNS provider modules in Caddy 2](https://caddy.community/t/how-to-use-dns-provider-modules-in-caddy-2/8148)
+        tls internal
+        # tls {
+        #         dns <provider> ...
+        # }
+        # tls /etc/ssl/caddy/fullchain.cer /etc/ssl/caddy/private.key
 
         encode gzip zstd
 
