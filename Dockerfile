@@ -29,7 +29,8 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
     --with github.com/mholt/caddy-l4 \
     --with github.com/lindenlab/caddy-s3-proxy \
     --with github.com/mholt/caddy-grpc-web \
-    --with github.com/kirsch33/realip
+    --with github.com/kirsch33/realip \
+    --with github.com/mholt/caddy-ratelimit
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
     # --with github.com/mholt/caddy-events-exec \
     # --with github.com/abiosoft/caddy-exec \
