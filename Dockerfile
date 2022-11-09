@@ -5,6 +5,11 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache coreutils ca-certificates curl git nss-tools && \
+    rm -rf /tmp/* /var/cache/apk/*
+
 # Fix godaddy build: `panic: internal error: can't find reason for requirement on google.golang.org/appengine@v1.6.6`
 # Usage: `xcaddy build --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy`
 RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-godaddy && \

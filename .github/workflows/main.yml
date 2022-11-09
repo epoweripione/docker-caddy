@@ -30,18 +30,18 @@ jobs:
           TAGS="$TAGS,${GHCR_IMAGE}:latest,${ACR_IMAGE}:latest"
           echo ::set-output name=tags::${TAGS}
 
-      - name: Set up QEMU
+      - name: Setup QEMU
         id: qemu
         uses: docker/setup-qemu-action@v2
         with:
           platforms: amd64,arm64
 
-      - name: Set up Docker Buildx
+      - name: Setup Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -73,7 +73,7 @@ jobs:
           file: ./Dockerfile
           # target: production
           # platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
