@@ -39,6 +39,11 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
 # deploy
 FROM caddy:2-alpine AS deploy
 
+LABEL Maintainer="Ansley Leung" \
+    Description="Self-host Caddy server" \
+    License="MIT License" \
+    CaddyServer="2.6.4"
+
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache coreutils ca-certificates curl git nss-tools && \
