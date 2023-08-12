@@ -23,7 +23,6 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.7.3 \
     --with github.com/caddy-dns/googleclouddns \
     --with github.com/caddy-dns/namesilo \
     --with github.com/mholt/caddy-dynamicdns \
-    --with github.com/mastercactapus/caddy2-proxyprotocol \
     --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     --with github.com/mholt/caddy-webdav \
     --with github.com/mholt/caddy-l4 \
