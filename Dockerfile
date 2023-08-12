@@ -42,7 +42,7 @@ FROM caddy:2-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.6.4"
+    CaddyServer="2.7.3"
 
 RUN apk update && \
     apk upgrade && \
