@@ -5,7 +5,8 @@ name: Main Branch CI
 # integration tests
 on:
   push:
-    branches: ['main']
+    # branches: ['main']
+    tags: ['*']
 
 jobs:
   docker:
@@ -27,7 +28,7 @@ jobs:
             VERSION=nightly
           fi
           TAGS="${GHCR_IMAGE}:${VERSION}"
-          TAGS="$TAGS,${GHCR_IMAGE}:latest,${ACR_IMAGE}:latest"
+          TAGS="$TAGS,${GHCR_IMAGE}:latest,${ACR_IMAGE}:${VERSION},${ACR_IMAGE}:latest"
           echo ::set-output name=tags::${TAGS}
 
       - name: Setup QEMU

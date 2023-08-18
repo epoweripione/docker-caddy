@@ -13,7 +13,7 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 	go mod init github.com/caddy-dns/godaddy && \
 	go mod tidy
 
-RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.7.4 \
+RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.6.4 \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
     --with github.com/caddy-dns/cloudflare \
@@ -23,13 +23,14 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.7.4 \
     --with github.com/caddy-dns/googleclouddns \
     --with github.com/caddy-dns/namesilo \
     --with github.com/mholt/caddy-dynamicdns \
-    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@naive \
+    --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     --with github.com/mholt/caddy-webdav \
     --with github.com/mholt/caddy-l4 \
     --with github.com/lindenlab/caddy-s3-proxy \
     --with github.com/mholt/caddy-grpc-web \
     --with github.com/kirsch33/realip \
     --with github.com/mholt/caddy-ratelimit
+    # --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@naive \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
     # --with github.com/mholt/caddy-events-exec \
@@ -42,7 +43,7 @@ FROM caddy:2-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.7.4"
+    CaddyServer="2.6.4"
 
 RUN apk update && \
     apk upgrade && \
