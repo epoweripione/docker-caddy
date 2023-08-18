@@ -5,6 +5,8 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
+ENV CADDY_VERSION v2.6.4
+
 # Fix godaddy build: `panic: internal error: can't find reason for requirement on google.golang.org/appengine@v1.6.6`
 # Usage: `xcaddy build --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy`
 RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-godaddy && \
@@ -13,7 +15,7 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 	go mod init github.com/caddy-dns/godaddy && \
 	go mod tidy
 
-RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.6.4 \
+RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
     --with github.com/caddy-dns/cloudflare@a9d3ae2690a1d232bc9f8fc8b15bd4e0a6960eec \
