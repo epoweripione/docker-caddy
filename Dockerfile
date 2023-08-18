@@ -1,5 +1,5 @@
 # build
-ARG CADDY_VERSION=2.6.4
+ARG CADDY_VERSION=2.7.4
 
 FROM --platform=$BUILDPLATFORM caddy:${CADDY_VERSION}-builder-alpine AS builder
 
@@ -18,16 +18,16 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
-    --with github.com/caddy-dns/cloudflare@a9d3ae2690a1d232bc9f8fc8b15bd4e0a6960eec \
+    --with github.com/caddy-dns/cloudflare \
     --with github.com/caddy-dns/digitalocean \
     --with github.com/caddy-dns/dnspod \
     --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy \
     --with github.com/caddy-dns/googleclouddns \
     --with github.com/caddy-dns/namesilo \
     --with github.com/mholt/caddy-dynamicdns \
-    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@4e4d3b371b940f6f886fe0e051feb352d1d340ce \
+    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@naive \
     --with github.com/mholt/caddy-webdav \
-    --with github.com/mholt/caddy-l4@38bd80163b43568cab5a12e09b41923bcac99f86 \
+    --with github.com/mholt/caddy-l4 \
     --with github.com/lindenlab/caddy-s3-proxy \
     --with github.com/mholt/caddy-grpc-web \
     --with github.com/kirsch33/realip \
@@ -44,7 +44,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.6.4"
+    CaddyServer="2.7.4"
 
 RUN apk update && \
     apk upgrade && \
