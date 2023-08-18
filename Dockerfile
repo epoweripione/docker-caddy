@@ -13,7 +13,7 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 	go mod init github.com/caddy-dns/godaddy && \
 	go mod tidy
 
-RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.7.3 \
+RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build v2.7.4 \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
     --with github.com/caddy-dns/cloudflare \
@@ -42,7 +42,7 @@ FROM caddy:2-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.7.3"
+    CaddyServer="2.7.4"
 
 RUN apk update && \
     apk upgrade && \
