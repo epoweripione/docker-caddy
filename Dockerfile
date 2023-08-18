@@ -1,11 +1,11 @@
 # build
-FROM --platform=$BUILDPLATFORM caddy:2-builder-alpine AS builder
+ARG CADDY_VERSION=2.6.4
+
+FROM --platform=$BUILDPLATFORM caddy:${CADDY_VERSION}-builder-alpine AS builder
 
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETARCH
-
-ENV CADDY_VERSION v2.6.4
 
 # Fix godaddy build: `panic: internal error: can't find reason for requirement on google.golang.org/appengine@v1.6.6`
 # Usage: `xcaddy build --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy`
@@ -39,7 +39,7 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
     # --with github.com/WingLim/caddy-webhook
 
 # deploy
-FROM caddy:2-alpine AS deploy
+FROM caddy:${CADDY_VERSION}-alpine AS deploy
 
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
