@@ -15,7 +15,7 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 	go mod init github.com/caddy-dns/godaddy && \
 	go mod tidy
 
-RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build \
+RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
     --with github.com/caddy-dns/cloudflare@a9d3ae2690a1d232bc9f8fc8b15bd4e0a6960eec \
