@@ -1,5 +1,5 @@
 # build
-ARG CADDY_VERSION=2.7.4
+ARG CADDY_VERSION=2.7.5
 
 FROM --platform=$BUILDPLATFORM caddy:${CADDY_VERSION}-builder-alpine AS builder
 
@@ -44,7 +44,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.7.4"
+    CaddyServer="2.7.5"
 
 RUN apk update && \
     apk upgrade && \
