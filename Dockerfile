@@ -23,7 +23,6 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/dnspod \
     --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy \
     --with github.com/caddy-dns/googleclouddns \
-    --with github.com/caddy-dns/namesilo \
     --with github.com/mholt/caddy-dynamicdns \
     --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@naive \
     --with github.com/mholt/caddy-webdav \
@@ -32,6 +31,7 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/mholt/caddy-grpc-web \
     --with github.com/kirsch33/realip \
     --with github.com/mholt/caddy-ratelimit
+    # --with github.com/caddy-dns/namesilo \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
     # --with github.com/mholt/caddy-events-exec \
