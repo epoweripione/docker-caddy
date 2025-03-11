@@ -24,19 +24,23 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy \
     --with github.com/caddy-dns/googleclouddns \
     --with github.com/caddy-dns/namesilo \
+    --with github.com/caddy-dns/duckdns \
     --with github.com/mholt/caddy-dynamicdns \
-    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@ae28a93c3f8b059bbe1d72b73bd948f87baede6c \
+    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@6a0b31e02a866a6885e3c00ba8cf1e50bc63e1e3 \
     --with github.com/mholt/caddy-webdav \
     --with github.com/mholt/caddy-l4 \
     --with github.com/lindenlab/caddy-s3-proxy \
     --with github.com/mholt/caddy-grpc-web \
     --with github.com/kirsch33/realip \
-    --with github.com/mholt/caddy-ratelimit
+    --with github.com/mholt/caddy-ratelimit \
+    --with github.com/mholt/caddy-events-exec \
+    --with github.com/abiosoft/caddy-exec \
+    --with github.com/WingLim/caddy-webhook \
+    --with github.com/WeidiDeng/caddy-cloudflare-ip \
+    --with github.com/xcaddyplugins/caddy-trusted-cloudfront \
+    --with github.com/imgk/caddy-trojan
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
-    # --with github.com/mholt/caddy-events-exec \
-    # --with github.com/abiosoft/caddy-exec \
-    # --with github.com/WingLim/caddy-webhook
 
 # deploy
 FROM caddy:${CADDY_VERSION}-alpine AS deploy
@@ -44,7 +48,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.8.4"
+    CaddyServer="2.9.1"
 
 RUN apk update && \
     apk upgrade && \
