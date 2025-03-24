@@ -52,7 +52,7 @@ LABEL Maintainer="Ansley Leung" \
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache coreutils ca-certificates curl git nss-tools && \
+    apk add --no-cache coreutils ca-certificates curl git nss-tools tzdata && \
     rm -rf /tmp/* /var/cache/apk/*
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
