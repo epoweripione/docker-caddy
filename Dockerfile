@@ -1,5 +1,5 @@
 # build
-ARG CADDY_VERSION=2.9.1
+ARG CADDY_VERSION=2.10.0
 
 FROM --platform=$BUILDPLATFORM caddy:${CADDY_VERSION}-builder-alpine AS builder
 
@@ -15,6 +15,14 @@ RUN git clone --depth=1 https://github.com/caddy-dns/godaddy /root/caddy-dns-god
 	go mod init github.com/caddy-dns/godaddy && \
 	go mod tidy
 
+# forwardproxy
+RUN git clone --depth=1 https://github.com/zedifen/forwardproxy --branch naive /root/forwardproxy && \
+	cd /root/forwardproxy && \
+	govesion="$(go env GOVERSION)" && \
+	sed -i "s/^toolchain.*/toolchain ${govesion}/" go.mod && \
+	go get -u all && \
+	go mod tidy
+
 RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/alidns \
     --with github.com/caddy-dns/azure \
@@ -26,7 +34,7 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/namesilo \
     --with github.com/caddy-dns/duckdns \
     --with github.com/mholt/caddy-dynamicdns \
-    --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@6a0b31e02a866a6885e3c00ba8cf1e50bc63e1e3 \
+    --with github.com/caddyserver/forwardproxy@caddy2=/root/forwardproxy \
     --with github.com/mholt/caddy-webdav \
     --with github.com/mholt/caddy-l4 \
     --with github.com/lindenlab/caddy-s3-proxy \
@@ -39,7 +47,7 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/WeidiDeng/caddy-cloudflare-ip \
     --with github.com/xcaddyplugins/caddy-trusted-cloudfront \
     --with github.com/imgk/caddy-trojan
-    # --with github.com/caddyserver/forwardproxy@caddy2=github.com/sagernet/forwardproxy@naive \
+    # --with github.com/caddyserver/forwardproxy@caddy2=github.com/zedifen/forwardproxy@naive \
     # --with github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive \
 
 # deploy
