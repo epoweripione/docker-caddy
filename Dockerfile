@@ -29,6 +29,8 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/caddy-dns/duckdns \
     --with github.com/caddy-dns/porkbun \
+    --with github.com/caddy-dns/tencentcloud \
+    --with github.com/libdns/digitalocean \
     --with github.com/libdns/namesilo \
     --with github.com/caddyserver/certmagic \
     --with github.com/caddyserver/forwardproxy@caddy2=/root/forwardproxy \
@@ -47,7 +49,6 @@ RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/WingLim/caddy-webhook \
     --with github.com/xcaddyplugins/caddy-trusted-cloudfront
     # --with github.com/caddy-dns/digitalocean \
-    # --with github.com/caddy-dns/dnspod \
     # --with github.com/caddy-dns/godaddy=/root/caddy-dns-godaddy \
     # --with github.com/caddy-dns/googleclouddns \
     # --with github.com/caddy-dns/namesilo \
@@ -60,7 +61,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.9.1"
+    CaddyServer="2.10.0"
 
 RUN apk update && \
     apk upgrade && \
