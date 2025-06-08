@@ -20,8 +20,9 @@ RUN git clone --depth=1 https://github.com/zedifen/forwardproxy --branch naive /
 	cd /root/forwardproxy && \
 	govesion="$(go env GOVERSION)" && \
 	sed -i "s/^toolchain.*/toolchain ${govesion}/" go.mod && \
-	go get -u all && \
 	go mod tidy
+	# go get -u all && \
+	# go mod tidy
 
 RUN GOOS=linux GOARCH=$TARGETARCH xcaddy build $CADDY_VERSION \
     --with github.com/caddy-dns/alidns \
