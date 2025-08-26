@@ -20,8 +20,8 @@ RUN git clone --depth=1 https://github.com/zedifen/forwardproxy --branch naive /
 	cd /root/forwardproxy && \
 	govesion="$(go env GOVERSION)" && \
 	sed -i "s/^toolchain.*/toolchain ${govesion}/" go.mod && \
-	sed -i "s/^go.*/go ${govesion}/" go.mod && \
-    sed -i "s|caddyserver/caddy/v2.*|caddyserver/caddy/v2 v${CADDY_VERSION}|" go.mod && \
+	sed -i "s/^go.*/go ${govesion//go/}/" go.mod && \
+    sed -i "s|caddyserver/caddy/v2.*|caddyserver/caddy/v2 ${CADDY_VERSION}|" go.mod && \
 	go mod tidy
 	# go get -u all && \
 	# go mod tidy
@@ -64,7 +64,7 @@ FROM caddy:${CADDY_VERSION}-alpine AS deploy
 LABEL Maintainer="Ansley Leung" \
     Description="Self-host Caddy server" \
     License="MIT License" \
-    CaddyServer="2.10.0"
+    CaddyServer="2.10.2"
 
 RUN apk update && \
     apk upgrade && \
